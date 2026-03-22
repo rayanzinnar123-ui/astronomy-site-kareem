@@ -1048,8 +1048,20 @@ function init() {
 // ========================================
 
 // OpenRouter API configuration
-const OPENROUTER_API_KEY = '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';
+const OPENROUTER_API_KEY =
+  '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';
 const OPENROUTER_API_URL = 'https://openrouter.ai/api/v1/chat/completions';
+/** OpenRouter expects a real HTTP(S) referer; file:// breaks CORS / validation for many setups */
+function openRouterReferer() {
+  try {
+    if (window.location.protocol === 'file:') {
+      return 'http://localhost';
+    }
+    return window.location.href || 'http://localhost';
+  } catch {
+    return 'http://localhost';
+  }
+}
 
 // Build context about the website content
 function buildWebsiteContext() {
@@ -1136,24 +1148,44 @@ If asked about moon phases, explain the geometry. Always stay focused on this pr
 }
 
 function initChatbot() {
+  const {
+    chatbotToggle,
+    chatbotForm,
+    chatbotContainer,
+    chatbotInput,
+    chatbotSend,
+    chatbotMessages
+  } = DOM;
+  if (
+    !chatbotToggle ||
+    !chatbotForm ||
+    !chatbotContainer ||
+    !chatbotInput ||
+    !chatbotSend ||
+    !chatbotMessages
+  ) {
+    console.warn('Chatbot: missing DOM elements, skipping init.');
+    return;
+  }
+
   // Toggle chatbot window
-  DOM.chatbotToggle.addEventListener('click', () => {
-    DOM.chatbotContainer.classList.toggle('open');
-    if (DOM.chatbotContainer.classList.contains('open')) {
-      DOM.chatbotInput.focus();
+  chatbotToggle.addEventListener('click', () => {
+    chatbotContainer.classList.toggle('open');
+    if (chatbotContainer.classList.contains('open')) {
+      chatbotInput.focus();
     }
   });
 
   // Handle form submission
-  DOM.chatbotForm.addEventListener('submit', async (e) => {
+  chatbotForm.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const message = DOM.chatbotInput.value.trim();
+    const message = chatbotInput.value.trim();
     if (!message) return;
 
     // Add user message
     addChatMessage(message, 'user');
-    DOM.chatbotInput.value = '';
-    DOM.chatbotSend.disabled = true;
+    chatbotInput.value = '';
+    chatbotSend.disabled = true;
 
     // Show typing indicator
     const typingEl = addTypingIndicator();
@@ -1164,17 +1196,25 @@ function initChatbot() {
       addChatMessage(response, 'bot');
     } catch (error) {
       typingEl.remove();
-      addChatMessage('Sorry, I encountered an error. Please try again.', 'bot', true);
+      const detail =
+        error instanceof Error && error.message
+          ? ` ${error.message}`
+          : '';
+      addChatMessage(
+        `Sorry, something went wrong.${detail} If you opened this page as a local file, try serving the folder with a simple local server (e.g. Live Server) so the API request is allowed.`,
+        'bot',
+        true
+      );
       console.error('Chatbot error:', error);
     }
 
-    DOM.chatbotSend.disabled = false;
+    chatbotSend.disabled = false;
   });
 
   // Close chatbot on Escape key
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && DOM.chatbotContainer.classList.contains('open')) {
-      DOM.chatbotContainer.classList.remove('open');
+    if (e.key === 'Escape' && chatbotContainer.classList.contains('open')) {
+      chatbotContainer.classList.remove('open');
     }
   });
 }
@@ -1214,13 +1254,13 @@ async function sendToOpenRouter(userMessage) {
   const response = await fetch(OPENROUTER_API_URL, {
     method: 'POST',
     headers: {
-      'Authorization': `Bearer ${OPENROUTER_API_KEY}`,
+      Authorization: `Bearer ${OPENROUTER_API_KEY}`,
       'Content-Type': 'application/json',
-      'HTTP-Referer': window.location.href,
+      'HTTP-Referer': openRouterReferer(),
       'X-Title': 'Moon Journal Assistant'
     },
     body: JSON.stringify({
-      model: 'openai/gpt-3.5-turbo',
+      model: 'openai/gpt-4o-mini',
       messages: [
         { role: 'system', content: systemPrompt },
         { role: 'user', content: userMessage }
@@ -1230,13 +1270,32 @@ async function sendToOpenRouter(userMessage) {
     })
   });
 
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.error?.message || 'API request failed');
+  const rawText = await response.text();
+  let data;
+  try {
+    data = rawText ? JSON.parse(rawText) : {};
+  } catch {
+    throw new Error(
+      response.ok
+        ? 'Invalid response from assistant.'
+        : `Request failed (${response.status}). ${rawText.slice(0, 200)}`
+    );
   }
 
-  const data = await response.json();
-  return data.choices[0].message.content;
+  if (!response.ok) {
+    const msg =
+      data.error?.message ||
+      data.message ||
+      (typeof data.error === 'string' ? data.error : null) ||
+      `HTTP ${response.status}`;
+    throw new Error(msg);
+  }
+
+  const content = data.choices?.[0]?.message?.content;
+  if (content == null || content === '') {
+    throw new Error('Empty reply from assistant.');
+  }
+  return content;
 }
 
 
