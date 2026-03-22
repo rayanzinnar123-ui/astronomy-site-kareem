@@ -209,7 +209,7 @@ const observationData = [
     time: '4:00 PM',
     location: 'Beirut, Lebanon',
     angularDistance: 'N/A',
-    directionToSun: 'N/A',
+    handEstimate: 'N/A',
     weather: 'Heavy fog',
     sketchPlaceholder: true,
     sketchImage: null,
@@ -226,7 +226,7 @@ const observationData = [
     time: '8:20 AM',
     location: 'Beirut, Lebanon',
     angularDistance: 'N/A',
-    directionToSun: 'N/A',
+    handEstimate: 'N/A',
     weather: 'Cloudy',
     sketchPlaceholder: true,
     sketchImage: null,
@@ -243,7 +243,7 @@ const observationData = [
     time: '7:57 AM',
     location: 'Beirut, Lebanon',
     angularDistance: 'N/A',
-    directionToSun: 'N/A',
+    handEstimate: 'N/A',
     weather: 'Clear',
     sketchPlaceholder: true,
     sketchImage: null,
@@ -260,7 +260,7 @@ const observationData = [
     time: '6:57 AM',
     location: 'Beirut, Lebanon',
     angularDistance: 'N/A',
-    directionToSun: 'N/A',
+    handEstimate: 'N/A',
     weather: 'Clear',
     sketchPlaceholder: true,
     sketchImage: null,
@@ -277,7 +277,7 @@ const observationData = [
     time: '7:03 AM',
     location: 'Beirut, Lebanon',
     angularDistance: 'N/A',
-    directionToSun: 'N/A',
+    handEstimate: 'N/A',
     weather: 'Cloudy',
     sketchPlaceholder: true,
     sketchImage: null,
@@ -294,7 +294,7 @@ const observationData = [
     time: '9:37 AM',
     location: 'Beirut, Lebanon',
     angularDistance: 'N/A',
-    directionToSun: 'N/A',
+    handEstimate: 'N/A',
     weather: 'Clear',
     sketchPlaceholder: true,
     sketchImage: null,
@@ -311,7 +311,7 @@ const observationData = [
     time: '7:17 AM',
     location: 'Beirut, Lebanon',
     angularDistance: 'N/A',
-    directionToSun: 'N/A',
+    handEstimate: 'N/A',
     weather: 'Clear',
     sketchPlaceholder: true,
     sketchImage: null,
@@ -328,7 +328,7 @@ const observationData = [
     time: '6:42 AM',
     location: 'Beirut, Lebanon',
     angularDistance: 'N/A',
-    directionToSun: 'N/A',
+    handEstimate: 'N/A',
     weather: 'Clear',
     sketchPlaceholder: true,
     sketchImage: null,
@@ -345,7 +345,7 @@ const observationData = [
     time: '6:36 AM',
     location: 'Beirut, Lebanon',
     angularDistance: 'N/A',
-    directionToSun: 'N/A',
+    handEstimate: 'N/A',
     weather: 'Partly cloudy',
     sketchPlaceholder: true,
     sketchImage: null,
@@ -354,7 +354,7 @@ const observationData = [
   }
 ];
 
-// Images in ../images/ are wired by filename: {mon}-{day}-weather.* → photoImage, {mon}-{day}-sketch.* → sketchImage.
+// Images in images/ are wired by filename: {mon}-{day}-weather.* → photoImage, {mon}-{day}-sketch.* → sketchImage.
 // Add new filenames here when you add files (browsers cannot list folders without a server).
 const IMAGES_FOLDER_FILENAMES = [
   'feb-7-weather.jpeg',
@@ -387,7 +387,7 @@ const IMAGES_FOLDER_FILENAMES = [
   'march-15-sketch.jpeg'
 ];
 
-const IMAGES_BASE_PATH = '../images/';
+const IMAGES_BASE_PATH = 'images/';
 const MONTH_PREFIX_TO_NUMBER = {
   jan: 1, january: 1,
   feb: 2, february: 2,
@@ -658,8 +658,7 @@ function renderDataTable() {
         <td class="${visibleClass}">${visibleText}</td>
         <td>${obs.phaseName}</td>
         <td>${obs.angularDistance}</td>
-        <td>${obs.handEstimate}</td>
-        <td>${obs.weather}</td>
+        <td>${obs.handEstimate ?? 'N/A'}</td>
       </tr>
     `;
   });
@@ -1063,9 +1062,8 @@ Phase: ${obs.phaseName}
 Time: ${obs.time}
 Location: ${obs.location}
 Angular Distance from Sun: ${obs.angularDistance}
-Direction to Sun: ${obs.directionToSun}
+Hand estimate: ${obs.handEstimate ?? 'N/A'}
 Weather: ${obs.weather}
-Notes: ${obs.notes ?? '(none)'}
     `.trim();
   }).join('\n\n');
 
