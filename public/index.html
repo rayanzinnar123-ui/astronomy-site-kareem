@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Moon Journal | Lunar Observation Study</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <!-- ========== NAVIGATION ========== -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="#home" class="nav-logo">
+        <span class="logo-icon">☽</span>
+        <span class="logo-text">Moon Journal</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#home" class="nav-link active">Home</a></li>
+        <li><a href="#calendar" class="nav-link">Calendar</a></li>
+        <li><a href="#observations" class="nav-link">Observations</a></li>
+        <li><a href="#data-table" class="nav-link">Data Table</a></li>
+        <li><a href="#analysis" class="nav-link">Analysis</a></li>
+        <li><a href="#conclusion" class="nav-link">Conclusion</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ========== HERO SECTION ========== -->
+  <section id="home" class="hero">
+    <div class="stars"></div>
+    <div class="hero-content">
+      <h1 class="hero-title">Moon Journal</h1>
+      <p class="hero-subtitle">Observational Study of Lunar Phases and Sun–Moon Geometry</p>
+      <p class="hero-intro">
+        This project documents systematic observations of the Moon over several weeks,
+        studying lunar phases, the Moon's illuminated shape, its geometric relation to the Sun,
+        and what these observations reveal about reflected sunlight and celestial distances.
+      </p>
+
+      <div class="info-panel">
+        <div class="info-item">
+          <span class="info-label">Student Name</span>
+          <span class="info-value">Kareem Ali Mahloul Al Zinnar & Yehya Zadeh</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Course</span>
+          <span class="info-value">AST 200: Introduction to Astronomy</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Instructor</span>
+          <span class="info-value">Dr. Racha Cheaib</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Observation Period</span>
+          <span class="info-value">February 7, 2026 – March 15, 2026</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Successful Observations</span>
+          <span class="info-value" id="successCount">6</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Total Attempted Days</span>
+          <span class="info-value" id="attemptCount">10</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Submission Date</span>
+          <span class="info-value">March 22, 2026</span>
+        </div>
+      </div>
+
+      <a href="#calendar" class="hero-cta">View Observations</a>
+    </div>
+    <div class="hero-moon"></div>
+  </section>
+
+  <!-- ========== PROJECT OVERVIEW ========== -->
+  <section id="overview" class="section overview">
+    <div class="container">
+      <h2 class="section-title">Project Overview</h2>
+      <div class="overview-content">
+        <div class="overview-text">
+          <p>
+            The Moon Journal is a systematic record of lunar observations conducted over a multi-week period.
+            This interactive website organizes all observation data, photographs, sketches, and scientific analysis
+            in a format designed for academic review.
+          </p>
+          <p>
+            Navigate using the menu above to explore the interactive calendar, detailed observation records,
+            formal data tables, and scientific analysis sections. Click on any calendar date to view
+            comprehensive observation details including photographs, sketches, and measurement data.
+          </p>
+        </div>
+
+        <div class="legend">
+          <h3 class="legend-title">Observation Status Legend</h3>
+          <div class="legend-items">
+            <div class="legend-item">
+              <span class="status-badge status-observed"></span>
+              <span>Successful Observation</span>
+            </div>
+            <div class="legend-item">
+              <span class="status-badge status-attempted"></span>
+              <span>Attempted – Moon Not Visible</span>
+            </div>
+            <div class="legend-item">
+              <span class="status-badge status-weather"></span>
+              <span>Weather Interference</span>
+            </div>
+            <div class="legend-item">
+              <span class="status-badge status-none"></span>
+              <span>No Record</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== CALENDAR SECTION ========== -->
+  <section id="calendar" class="section calendar-section">
+    <div class="container">
+      <h2 class="section-title">Observation Calendar</h2>
+      <p class="section-description">
+        Click on any date to view detailed observation records. Colored indicators show observation status.
+      </p>
+
+      <div class="calendar-container">
+        <div class="calendar-header">
+          <button class="calendar-nav-btn" id="calendarPrev" aria-label="Previous month">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+          </button>
+          <h3 class="calendar-month" id="calendarMonth">February 2026</h3>
+          <button class="calendar-nav-btn" id="calendarNext" aria-label="Next month">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </button>
+        </div>
+        <div class="calendar-weekdays">
+          <span>Sun</span>
+          <span>Mon</span>
+          <span>Tue</span>
+          <span>Wed</span>
+          <span>Thu</span>
+          <span>Fri</span>
+          <span>Sat</span>
+        </div>
+        <div class="calendar-grid" id="calendarGrid">
+          <!-- Calendar days will be rendered by JavaScript -->
+        </div>
+      </div>
+
+      <div class="calendar-legend">
+        <div class="legend-item">
+          <span class="status-badge status-observed"></span>
+          <span>Observed</span>
+        </div>
+        <div class="legend-item">
+          <span class="status-badge status-attempted"></span>
+          <span>Attempted</span>
+        </div>
+        <div class="legend-item">
+          <span class="status-badge status-weather"></span>
+          <span>Weather</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== OBSERVATION GALLERY ========== -->
+  <section id="observations" class="section observations-section">
+    <div class="container">
+      <h2 class="section-title">Observation Gallery</h2>
+      <p class="section-description">
+        Successful lunar observations with sketches and photographs.
+      </p>
+
+      <div class="gallery-grid" id="galleryGrid">
+        <!-- Gallery cards will be rendered by JavaScript -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== DATA TABLE SECTION ========== -->
+  <section id="data-table" class="section data-section">
+    <div class="container">
+      <h2 class="section-title">Formal Observation Data</h2>
+      <p class="section-description">
+        Complete scientific record of all observation attempts.
+      </p>
+
+      <div class="table-wrapper">
+        <table class="data-table" id="dataTable">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Time</th>
+              <th>Location</th>
+              <th>Visible?</th>
+              <th>Phase</th>
+              <th>Angular Sep.</th>
+              <th>Direction to Sun</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody id="dataTableBody">
+            <!-- Table rows will be rendered by JavaScript -->
+          </tbody>
+        </table>
+      </div>
+
+      <button class="print-btn" onclick="window.print()">
+        <span class="print-icon">🖨</span>
+        Print Summary
+      </button>
+    </div>
+  </section>
+
+  <!-- ========== MISSED OBSERVATIONS ========== -->
+  <section id="missed" class="section missed-section">
+    <div class="container">
+      <h2 class="section-title">Unsuccessful Observation Attempts</h2>
+      <p class="section-description">
+        Documentation of attempted observations that could not be completed due to visibility or weather conditions.
+      </p>
+
+      <div class="missed-grid" id="missedGrid">
+        <!-- Missed observation cards will be rendered by JavaScript -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== ANALYSIS SECTION ========== -->
+  <section id="analysis" class="section analysis-section">
+    <div class="container">
+      <h2 class="section-title">Scientific Analysis</h2>
+
+      <article class="analysis-article">
+        <section class="analysis-subsection">
+          <h3>A. Relationship between the illuminated shape of the Moon and the position of the Sun</h3>
+          <p>
+            A clear and consistent relationship was observed between the illuminated shape of the Moon and the relative
+            position of the Sun. In all observations, the illuminated portion of the Moon was always oriented toward the
+            direction of the Sun in the sky. In other words, the bright side of the Moon effectively “points” directly
+            at the Sun. When the Sun was located to the left of the Moon, the illuminated portion appeared on the left
+            side; when the Sun was to the right, the illumination shifted accordingly. This pattern was consistently
+            verified through my sketches, where arrows drawn from the Moon toward the Sun aligned with the direction of
+            the illuminated edge.
+          </p>
+          <p>
+            This relationship held across multiple observations taken on different dates and times, such as February 11
+            (≈60°), February 12 (≈50°), and February 13 (≈35°), where the illuminated portion became progressively
+            smaller (see respective sketches and images in the calendar section) while still maintaining its orientation
+            toward the Sun. Therefore, the observed shape of the Moon is directly determined by its angular position
+            relative to the Sun, and the direction of illumination always indicates the Sun’s position.
+          </p>
+        </section>
+
+        <section class="analysis-subsection">
+          <h3>B. How can we tell that the Moon shines by reflected sunlight?</h3>
+          <p>
+            From our observations, it has become clear that the Moon shines by reflected sunlight because the
+            illuminated portion of the Moon always aligns with the position of the Sun. In every case, the bright side
+            of the Moon was oriented toward the Sun, as confirmed by our sketches where arrows drawn toward the Sun
+            matched the direction of illumination.
+          </p>
+          <p>
+            If the Moon was producing its own light, the illuminated portion would not consistently depend on the Sun’s
+            position and would appear independent of its direction. However, this was never observed. Instead, the
+            illumination always depended on the relative position between the Moon and the Sun (measured angular
+            distance across the straightest possible line). For example, during the first observed waning crescent phase
+            (February 11 to February 13), the illuminated portion decreased as the Moon moved closer to the Sun in the
+            sky (as the angular distance decreased). However, as the angular distance increased as time passed, i.e. the
+            Moon and the Sun grew further apart we noticed that the illuminated portion of the moon increased in size as
+            well (eg, February 27 [140°]) and then continued to decrease again as the angular distance shrunk (March 10
+            to March 15).
+          </p>
+          <p>
+            Therefore, the only logical explanation is that the Moon reflects sunlight, and the observed phases are a
+            result of the changing angle between the Sun, the Moon, and the observer.
+          </p>
+        </section>
+
+        <section class="analysis-subsection">
+          <h3>C. Why is it valid that observations were taken from different locations?</h3>
+          <p>
+            One important point to address is why it is valid that our observations were taken from different locations
+            (Beirut and Baalbek). At first glance, this might seem like it would affect the angular measurements between
+            the Moon and the Sun, especially since we relied on hand-based estimations such as fists and fingers.
+            However, the Moon–Sun angular separation is an astronomical quantity that depends on their relative
+            positions in the sky, not on the observer’s exact position on Earth, since these distances are negligible
+            compared to celestial scales.
+          </p>
+          <p>
+            Additionally, due to the Moon’s synchronous rotation (tidal locking), observers on Earth see essentially the
+            same face of the Moon at any given time, further reinforcing the consistency of observations across
+            locations. While the orientation of the sky may vary slightly depending on the observer’s position, the
+            angular separation itself remains effectively unchanged.
+          </p>
+          <p>
+            This is supported by the consistency in recorded data, where a clear decreasing trend in angular separation
+            was observed during the waning crescent phase (from about 60° on February 11 to about 35° on February 13),
+            and an increasing trend after the new moon (reaching about 140° on February 27). Any minor discrepancies are
+            more reasonably attributed to the limitations of hand-based estimation and photographic effects rather than
+            differences in observation location.
+          </p>
+        </section>
+
+        <section class="analysis-subsection">
+          <h3>D. How can we tell that the Sun is much farther away than the Moon?</h3>
+          <p>
+            From recorded observations, we can conclude that the Sun is much farther away than the Moon because the
+            direction of illumination is always consistent and depends only on the relative position of the Sun, that
+            is, the angular distance between the Sun and the Moon. In every case, the illuminated portion of the Moon
+            pointed directly towards the Sun, regardless of the time or location of observation.
+          </p>
+          <p>
+            This indicates that the light reaching the Moon behaves as if it is coming from a single, fixed direction.
+            Physically, light from a nearby source spreads out in different directions (diverges), while light from a
+            very distant source appears almost parallel. The fact that the illumination of the Moon is always perfectly
+            aligned with the Sun means that the sunlight reaching the Moon must be nearly parallel.
+          </p>
+          <p>
+            If the Sun were close to the Moon, the light rays would not be parallel, and the direction of illumination
+            would vary depending on the observer’s position on Earth. However, this was never observed; the alignment
+            remained consistent in all cases. Therefore, the only logical conclusion is that the Sun is extremely far
+            away compared to the Moon, which is why its light reaches the Moon in nearly parallel rays and produces a
+            consistent illumination pattern.
+          </p>
+        </section>
+
+        <div class="analysis-case-figures" aria-label="Supporting figures">
+          <figure class="analysis-case-figure">
+            <img src="../images/case-1-.jpeg" alt="Case 1" loading="lazy" decoding="async">
+            <figcaption class="analysis-case-caption">
+              <span class="analysis-case-caption-title">Case one</span><br>
+              <span class="analysis-case-caption-body">What if the Moon was closer to the Sun than the Earth</span>
+            </figcaption>
+          </figure>
+          <figure class="analysis-case-figure">
+            <img src="../images/case-2-.jpeg" alt="Case 2" loading="lazy" decoding="async">
+            <figcaption class="analysis-case-caption">
+              <span class="analysis-case-caption-title">Case two</span><br>
+              <span class="analysis-case-caption-body">Normal case</span>
+            </figcaption>
+          </figure>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ========== GEOMETRY SECTION ========== -->
+  <section id="geometry" class="section geometry-section">
+    <div class="container">
+      <h2 class="section-title">Moon-Sun Geometry</h2>
+      <p class="section-description">
+        Interactive visualization of lunar phases based on orbital geometry.
+      </p>
+
+      <div class="geometry-container">
+        <div class="orbit-diagram" id="orbitDiagram">
+          <!-- Sun rays -->
+          <div class="sun-rays">
+            <div class="ray"></div>
+            <div class="ray"></div>
+            <div class="ray"></div>
+            <div class="ray"></div>
+            <div class="ray"></div>
+          </div>
+
+          <!-- Sun -->
+          <div class="sun" id="sun">
+            <span class="body-label">Sun</span>
+          </div>
+
+          <!-- Earth -->
+          <div class="earth" id="earth">
+            <span class="body-label">Earth</span>
+          </div>
+
+          <!-- Moon orbit path -->
+          <div class="moon-orbit" id="moonOrbit"></div>
+
+          <!-- Moon -->
+          <div class="moon-marker" id="moonMarker">
+            <div class="moon-body">
+              <div class="moon-dark"></div>
+              <div class="moon-light" id="moonLight"></div>
+            </div>
+            <span class="body-label moon-label">Moon</span>
+          </div>
+
+          <!-- Sunlight direction arrow -->
+          <div class="sunlight-arrow">
+            <span>Sunlight Direction →</span>
+          </div>
+        </div>
+
+        <div class="geometry-controls">
+          <label for="phaseSlider" class="slider-label">Moon Orbital Position</label>
+          <input type="range" id="phaseSlider" min="0" max="360" value="45" class="phase-slider">
+
+          <div class="phase-display">
+            <div class="current-phase">
+              <span class="phase-label">Current Phase:</span>
+              <span class="phase-name" id="phaseName">Waxing Crescent</span>
+            </div>
+            <div class="phase-angle">
+              <span class="angle-label">Orbital Angle:</span>
+              <span class="angle-value" id="angleValue">45°</span>
+            </div>
+          </div>
+
+          <p class="geometry-explanation" id="geometryExplanation">
+            The Moon is positioned between Earth and Sun. The illuminated hemisphere faces
+            away from Earth, making the Moon nearly invisible (New Moon phase).
+          </p>
+        </div>
+      </div>
+
+      <div class="geometry-info">
+        <h3>Understanding the Diagram</h3>
+        <p>
+          This diagram shows a top-down view of the Earth-Moon-Sun system (not to scale).
+          Sunlight arrives from the right side of the diagram. As the Moon orbits Earth,
+          different portions of its illuminated hemisphere become visible from Earth,
+          creating the lunar phases we observe.
+        </p>
+        <ul class="geometry-list">
+          <li><strong>New Moon (0°):</strong> Moon between Earth and Sun; dark side faces Earth</li>
+          <li><strong>First Quarter (90°):</strong> Moon at right angle; right half illuminated</li>
+          <li><strong>Full Moon (180°):</strong> Earth between Moon and Sun; fully illuminated</li>
+          <li><strong>Last Quarter (270°):</strong> Moon at left angle; left half illuminated</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== CONCLUSION SECTION ========== -->
+  <section id="conclusion" class="section conclusion-section">
+    <div class="container">
+      <h2 class="section-title">Conclusion</h2>
+
+      <div class="conclusion-content">
+        <p class="conclusion-text">
+          This observational study of the Moon over a multi-week period has provided direct
+          evidence supporting fundamental principles of lunar astronomy. Through systematic
+          observation, documentation, and analysis, several key conclusions emerge regarding
+          the nature of moonlight and the geometry of the Earth-Moon-Sun system.
+        </p>
+
+        <div class="key-findings">
+          <h3>Key Findings</h3>
+          <ul class="findings-list">
+            <li>
+              <span class="finding-icon">◐</span>
+              <span>The lunar phase cycle follows a predictable ~29.5-day period, progressing through
+                new moon, waxing crescent, first quarter, waxing gibbous, full moon, waning gibbous,
+                last quarter, and waning crescent phases.</span>
+            </li>
+            <li>
+              <span class="finding-icon">☀</span>
+              <span>The illuminated portion of the Moon consistently faces the Sun's position,
+                demonstrating that moonlight is reflected sunlight rather than self-generated
+                luminescence.</span>
+            </li>
+            <li>
+              <span class="finding-icon">◑</span>
+              <span>The angular separation between the Moon and Sun directly correlates with the
+                observed phase, with larger separations corresponding to greater illuminated fractions.</span>
+            </li>
+            <li>
+              <span class="finding-icon">⊕</span>
+              <span>The geometry of observed phases confirms that the Sun must be significantly
+                more distant than the Moon, as evidenced by the phase cycle only being possible
+                with a distant, external light source.</span>
+            </li>
+          </ul>
+        </div>
+
+        <p class="conclusion-final">
+          These observations reinforce the heliocentric model of our solar system and
+          demonstrate how careful, systematic observation can reveal fundamental truths
+          about celestial mechanics. The Moon Journal serves as both a record of scientific
+          inquiry and evidence of the predictable, geometric nature of lunar phenomena.
+        </p>
+
+        <p class="edit-note">
+          [Edit this conclusion with your specific findings and observations.]
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <span class="footer-logo">☽</span>
+          <span class="footer-title">Moon Journal</span>
+        </div>
+        <div class="footer-info">
+          <p class="footer-student">Kareem Ali Mahloul Al Zinnar & Yehya Zadeh</p>
+          <p class="footer-year">© 2026</p>
+        </div>
+        <p class="footer-note">Prepared as an interactive astronomy project report</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========== CHATBOT ========== -->
+  <div class="chatbot-container" id="chatbotContainer">
+    <button class="chatbot-toggle" id="chatbotToggle" aria-label="Open chat assistant">
+      <svg class="chat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+      </svg>
+      <svg class="close-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+    <div class="chatbot-window" id="chatbotWindow">
+      <div class="chatbot-header">
+        <div class="chatbot-title">
+          <span class="chatbot-icon">☽</span>
+          <span>Moon Journal Assistant</span>
+        </div>
+        <p class="chatbot-subtitle">Ask me anything about this project</p>
+      </div>
+      <div class="chatbot-messages" id="chatbotMessages">
+        <div class="chat-message bot">
+          <div class="message-content">
+            Hello! I'm your Moon Journal assistant. I can answer any questions about lunar phases, the observations
+            recorded here, the geometry of the Moon-Sun-Earth system, or anything else in this project. What would you
+            like to know?
+          </div>
+        </div>
+      </div>
+      <form class="chatbot-input-form" id="chatbotForm">
+        <input type="text" id="chatbotInput" placeholder="Ask about moon phases, observations..." autocomplete="off">
+        <button type="submit" id="chatbotSend" aria-label="Send message">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="22" y1="2" x2="11" y2="13"></line>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+          </svg>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ========== MODAL ========== -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <button class="modal-close" id="modalClose" aria-label="Close modal">×</button>
+      <div class="modal-content" id="modalContent">
+        <!-- Modal content will be rendered by JavaScript -->
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
